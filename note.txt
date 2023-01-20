@@ -1,0 +1,147 @@
+
+SERVER SIDE
+-----------
+Server created using node - using express framework
+        why node technology? - server is asynchronous - can handle number of request at a time .. resolves many at a time
+        (php technology is out now - as its server is issue - asynchronous server - one request is resolved at a time - only when one is resolved, it will consider the other request)
+
+- create new folder bankserver outside the project folder 
+- open folder and create package.json file (enter npm init)
+note - we need package.json file to import extra modules - copy will be there in package.json file.. you can check if the modules are imported or not
+
+
+you need node and express
+
+
+
+install express
+----------------
+open terminal and type                          - npm i express
+
+
+
+steps to server creation
+-------------------------
+1. import express
+2. create an app using express
+3. create port number to run the server (set port)                - works in 3000 series
+4. create requests as per project need.......
+
+import express
+---------------
+require('express')
+
+create app
+-----------
+using express method created in the above step, you can create an app.. to be stored in a variable app
+const app=express()
+
+
+set port
+----------
+using listen function.. 
+run in 3000 series
+to run - open terminal in server - type node index.js
+
+
+note: node does not do recompilation.. i.e. we have restart to see made changes.. hence, we need nodemon server
+
+nodemon server
+--------------
+-npm i -g nodemon
+
+
+//this is js.. not ts.. so need not specify the datatype
+// write register code.. remove the datatype if specified
+//go to index.. give post request for the path register....normal functions are not accepted in angular .. instead it should be an arrow function
+                //{
+                "acno":1111,
+                "uname":"anumol",
+                "psw":123
+                } ...................................here the json data passed(key) should be string
+
+functions of one file and folder can be iimported to the required file...//similarly export required data from the imported file
+export file - module.exports={}
+export folder - package.exports{}
+
+user authentication using express
+---------------------------------
+JWT token
+----------
+json web token installation - npm i jsonwebtoken            - confirm installation - check package.json - - you will find jsonwebtoken with its version
+jsonwebtoken                - library
+sign()                      - method used for generation of token
+verify()                    - method used to verify jwt tokens
+
+import jwt in the dataservice page where authentication code is to be written
+
+MIDDLEWARES
+-------------
+- have all the access for requesting an object, responding to an object, 
+  and moving to the next middleware function in the application request-response cycle.
+
+- middlewarehave the ability to control the server request 
+- it is a function with 3 arguements (request, response, next)
+
+                - two types:
+
+                1. Application specific middleware - to be applicable if all the functions or methods need verification - first the middleware works, then only the remaining requests will works
+
+                2. Router specific middleware - to be used if only some of the functions need to use middleware
+
+
+Solving run time error 
+------------------------
+using try-catch - try block has code which will always work.
+catch- is the block that works when the condition inside teh catch is not satisfying (wrong)
+
+try{
+  error causing code (codes that has a probability of causing error output)
+}
+
+catch{
+  solution
+}
+
+
+
+
+mongodb server
+----------------
+https://www.mongodb.com/try/download/community                              - download
+https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/    - tutorial
+
+install mongodb compass
+
+- compass is used for interface
+
+- MongoDB is a document database. It stores data in a type of JSON format called BSON.
+
+- A record in MongoDB is a document, which is a data structure composed of key value pairs similar to the structure of JSON objects.
+
+
+shell commands in mongodb
+--------------------------
+1.) to see the databases ->                 show dbs
+
+2.) open database(any particular one) ->    use database_name
+
+3.) view collections inside database  ->    show collections
+
+4.) to view datas inside collections ->     db.collection_name.find()
+
+5.) to view any single data inside collections -> db.collection_name.findOne({unique data to identify})
+
+6.) to insert new data                         ->  db.collection_name.insertOne({data})
+
+7.) to view any single data according to a condition -> db.collection_name.findOne({condition})       
+                                                        db.collection_name.findOne({condition})    // find instead of findOne to access all data as per condition
+
+8.) delete single data                        ->      db.collection_name.deleteOne({data})
+                                                      here delete count would be - number.. 1,2,...? if delete count is 0.. that is deletion ot performed as there is no such data
+
+9.) Update                                    ->      db.collection_name.updateOne({data to be updated}, {new data})
+
+
+crud operations done - create read update delete 
+
