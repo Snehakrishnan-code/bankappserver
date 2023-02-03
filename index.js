@@ -1,3 +1,5 @@
+//import cors
+const cors = require('cors')
 
 //import dataservice file from service folder - to get the data
 const dataservice = require('./service/dataservice')      //similarly export required data from the imported file
@@ -7,13 +9,18 @@ const jwt = require('jsonwebtoken')
 
 //import express
 const express = require('express')   // 'require' used to import and it is stored in variable named express
+const{json}=require('express')
 
 //create app
 const app = express()
 
+//connect frontend using cors 
+app.use(cors({ origin: 'http://localhost:4200' }))
 
 //to convert json data
 app.use(express.json())            // use.. json method of express
+
+
 
 //Middleware to verify token
 const jwtmiddleware = (req, res, next) => {
@@ -25,42 +32,15 @@ const jwtmiddleware = (req, res, next) => {
         console.log(data);
         next() //next is called to continue with the other requests, otherwise middleware will keep running and server will be stuck in the middleware
     }
-    catch{
-        res.status(422).json({statusCode:422,
-        stats:false,
-        message:"please login"})
+    catch {
+        res.status(422).json({
+            statusCode: 422,
+            stats: false,
+            message: "please login"
+        })
     }
 }
 
-//request
-
-//GET Request - to access data
-// app.get('/',(req,res)=>{
-//     res.send('GET Method checking...........')
-// })
-//         //in the browser only get data will be displayed......... 
-//         //other request can be checked by simply copy the link and paste in thunderclient
-
-
-// //post request - store
-// app.post('/',(req,res)=>{
-//     res.send('post Method checking...........')
-// })
-
-// //put request - complete edit
-// app.put('/',(req,res)=>{
-//     res.send('put Method checking...........')
-// })
-
-// //patch request - partial edit
-// app.patch('/',(req,res)=>{
-//     res.send('patch Method checking...........')
-// })
-
-// //delete request - delete
-// app.delete('/',(req,res)=>{  
-//     res.send('delete Method checking...........')
-// }) 
 
 //set port
 app.listen(3000, () => {
@@ -71,49 +51,40 @@ app.listen(3000, () => {
 //register
 
 app.post('/register', (req, res) => {         // data accessed using req...
-    const result = dataservice.register(req.body.acno, req.body.uname, req.body.psw)
-    // res.send(result)
-    // res.json(result)   //instead of send use json () - data will be converted to json .. for frontend technology convertion
-
-    res.status(result.statusCode).json(result)  // to get the status code in the thunderclient response
-
-
-    // if (result) {
-    //     res.send('registration success')
-    // }
-    // else {
-    //     res.send('user already exist')
-    // }
-
-    // console.log(req.body);         //this is undefined shown in the port running terminal.......as the data will be in json format......change it to js
+    dataservice.register(req.body.acno, req.body.uname, req.body.psw).then(result => { res.status(result.statusCode).json(result) })
 })
 
 
 
 //login
 app.post('/login', (req, res) => {         // data accessed using req...
-    const result = dataservice.login(req.body.acno, req.body.psw)
-    res.status(result.statusCode).json(result)  // to get the status code in the thunderclient response
+    dataservice.login(req.body.acno, req.body.psw).then(result => { res.status(result.statusCode).json(result) })
+    // to get the status code in the thunderclient response
 })
 
 
 //deposit
 app.post('/deposit', jwtmiddleware, (req, res) => {         // data accessed using req...
-    const result = dataservice.deposit(req.body.acno, req.body.psw, req.body.amount)
-    res.status(result.statusCode).json(result)  // to get the status code in the thunderclient response
+    dataservice.deposit(req.body.acno, req.body.psw, req.body.amount).then(result => { res.status(result.statusCode).json(result) })
+    // to get the status code in the thunderclient response
 })
 
 
 //withdraw
 app.post('/withdraw', jwtmiddleware, (req, res) => {         // data accessed using req...
-    const result = dataservice.withdraw(req.body.acno, req.body.psw, req.body.amount)
-    res.status(result.statusCode).json(result)  // to get the status code in the thunderclient response
+    dataservice.withdraw(req.body.acno, req.body.psw, req.body.amount).then(result => { res.status(result.statusCode).json(result) })
+    // to get the status code in the thunderclient response
 })
 
 //transaction history
-app.post('/gettransactions', jwtmiddleware,(req, res) => {         // data accessed using req...
-    const result = dataservice.gettransactions(req.body.acno)
-    res.status(result.statusCode).json(result)  // to get the status code in the thunderclient response
+app.post('/gettransactions', jwtmiddleware, (req, res) => {         // data accessed using req...
+    dataservice.gettransactions(req.body.acno).then(result => { res.status(result.statusCode).json(result) })
+    // to get the status code in the thunderclient response
 })
 
 //accnt delete
+app.delete('/deleteacc/:acno',jwtmiddleware,(req,res)=>{                     //acno given in params         ---- to solve delete request
+    dataservice.acdelete(req.params.acno).then(result=>{
+        res.status(result.statusCode).json(result)
+    })
+})

@@ -14,6 +14,43 @@ you need node and express
 
 
 
+
+
+//requests
+---------------------------
+//GET Request - to access data
+// app.get('/',(req,res)=>{
+//     res.send('GET Method checking...........')
+// })
+//         //in the browser only get data will be displayed......... 
+//         //other request can be checked by simply copy the link and paste in thunderclient
+
+
+// //post request - store
+// app.post('/',(req,res)=>{
+//     res.send('post Method checking...........')
+// })
+
+// //put request - complete edit
+// app.put('/',(req,res)=>{
+//     res.send('put Method checking...........')
+// })
+
+// //patch request - partial edit
+// app.patch('/',(req,res)=>{
+//     res.send('patch Method checking...........')
+// })
+
+// //delete request - delete
+// app.delete('/',(req,res)=>{  
+//     res.send('delete Method checking...........')
+// }) 
+
+
+-------------------------------------------------------------------------------
+
+
+
 install express
 ----------------
 open terminal and type                          - npm i express
@@ -63,6 +100,42 @@ nodemon server
 functions of one file and folder can be iimported to the required file...//similarly export required data from the imported file
 export file - module.exports={}
 export folder - package.exports{}
+
+
+registerIndex.js Code
+
+app.post('/register', (req, res) => {         // data accessed using req...
+    const result = dataservice.register(req.body.acno, req.body.uname, req.body.psw)
+    // res.send(result)
+    // res.json(result)   //instead of send use json () - data will be converted to json .. for frontend technology convertion
+
+    res.status(result.statusCode).json(result)  // to get the status code in the thunderclient response
+
+
+    // if (result) {
+    //     res.send('registration success')
+    // }
+    // else {
+    //     res.send('user already exist')
+    // }
+
+    // console.log(req.body);         //this is undefined shown in the port running terminal.......as the data will be in json format......change it to js
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 user authentication using express
 ---------------------------------
@@ -135,7 +208,7 @@ shell commands in mongodb
 6.) to insert new data                         ->  db.collection_name.insertOne({data})
 
 7.) to view any single data according to a condition -> db.collection_name.findOne({condition})       
-                                                        db.collection_name.findOne({condition})    // find instead of findOne to access all data as per condition
+                                                        db.collection_name.find({condition})    // find instead of findOne to access all data as per condition
 
 8.) delete single data                        ->      db.collection_name.deleteOne({data})
                                                       here delete count would be - number.. 1,2,...? if delete count is 0.. that is deletion ot performed as there is no such data
@@ -144,4 +217,33 @@ shell commands in mongodb
 
 
 crud operations done - create read update delete 
+
+
+data should be added in json format (string type key-value pair)
+
+
+
+server-mongoDB integration - 
+------------------------------
+1.) Import mongoose
+2.) state connection string via mongoose
+3.) define a database module
+4.) export the schema to use in another file
+
+
+ANGULAR - SERVER INTEGRATION /  FRONTEND-BACKEND INTEGRATION-
+-----------------------------------------------------------------
+
+angular and node integration module - CORS (cross origin resource sharing)
+4200=3000
+
+
+steps - 
+-----------
+install cors                 -     npm i cors  (in the server terminal)
+//import cors
+                    const cors=require('cors')
+
+//connect frontend using cors 
+                    app.use({origin:'copy the link of landing page here'})
 
